@@ -5,8 +5,12 @@ setopt prompt_subst
 # os detection
 if [[ "$(uname)" == "Linux" ]]; then
     OS="Linux"
+    alias ls='ls --color=always'
+    ZSHSHPREFIX=/usr/share/zsh-syntax-highlighting
 elif [[ "$(uname)" == "Darwin" ]]; then
     OS="macOS"
+    alias ls='ls -G'
+    ZSHSHPREFIX=${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/
 else
     OS="Unknown"
 fi
@@ -23,16 +27,6 @@ precmd() {
   RPROMPT="$(gitzsh)"
 }
 
-# set zsh syntax highlighting prefix
-if [[ ${OS} == "Linux" ]]; then
-    ZSHSHPREFIX=/usr/share/zsh-syntax-highlighting
-elif [[ ${OS} == "macOS" ]]; then
-    ZSHSHPREFIX=${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/
-else
-    # nothing
-fi
-
+# zsh-syntax-highlighting
 source ${ZSHSHPREFIX}/zsh-syntax-highlighting.zsh
 
-# aliases
-alias ls='ls -G'
