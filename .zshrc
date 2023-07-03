@@ -1,11 +1,15 @@
 export LANG=en_US.UTF-8
 
-# SPACESHIP_TIME_SHOW=true
-# SPACESHIP_USER_SHOW=true
-# SPACESHIP_BATTERY_SHOW=true
-# source "$HOME/.zsh/spaceship/spaceship.zsh"
-
 setopt prompt_subst 
+
+# os detection
+if [[ "$(uname)" == "Linux" ]]; then
+    OS="Linux"
+elif [[ "$(uname)" == "Darwin" ]]; then
+    OS="macOS"
+else
+    OS="Unknown"
+fi
 
 if [[ -n ${SSH_TTY} ]]; then
         RHOST="$(hostname) "
@@ -19,6 +23,16 @@ precmd() {
   RPROMPT="$(gitzsh)"
 }
 
-source ${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# set zsh syntax highlighting prefix
+if [[ ${OS} == "Linux" ]]; then
+    ZSHSHPREFIX=/usr/share/zsh-syntax-highlighting
+elif [[ ${OS} == "macOS" ]]; then
+    ZSHSHPREFIX=${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/
+else
+    # nothing
+fi
 
+source ${ZSHSHPREFIX}/zsh-syntax-highlighting.zsh
+
+# aliases
 alias ls='ls -G'
